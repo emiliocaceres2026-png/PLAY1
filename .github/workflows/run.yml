@@ -22,7 +22,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb
-          pip install selenium webdriver-manager psutil
+          pip install selenium webdriver-manager psutil requests
 
       - name: Ejecutar script de Python con Xvfb
         env:
