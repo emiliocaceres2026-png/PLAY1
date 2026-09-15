@@ -17,7 +17,7 @@ LINKS = [
 ]
 
 PLANTILLA_BASE = "Quieres Ganar Mas de 2 mil en 45 minutoｓ Escribeme al Whatsapp⚡ ✅𝐎𝟗𝟔𝟖𝟖𝟑𝟐𝟑𝟎𝟎✅⚓𝚃𝙴L𝙴𝙶𝚁AM😚✅𝙰𝚅𝙸𝙰𝚃𝙾𝚁𝙿𝙺𝙰✅Sin 𝙿agos adelantadoss⚓⚡⛳⛺➕➗VAR_3"
-EMOJIS_POOL = list("😎😷😋😍😘😝😉😙🤓🔥💧👸😏🤑🤗👊✊👍💥👌👈👇👆👉👅👄🤘💏🙆💆💙💜💛💚👑🎩🙋💃🐽💗💌🤖🐺🐶💎🐦🐤🐥🐞🦄🐠🦀🦁🐼🐴🐒🐵➗🌹🌻🍄💐🌵🐩💵🎁💰")
+EMOJIS_POOL = list("😎😷😋😍😘😝😉😙🤓🔥💧👸😏🤑🤗👊✊👍💥👌👈👇👆👉👅👄🤘🙆💆💙💜💛💚👑🎩🙋💃🐽💗💌🤖🐺🐶💎🐦🐤🐥🐞🦄🐠🦀🦁🐼🐴🐒🐵➗🌹🌻🍄💐🌵🐩💵🎁💰")
 
 historial_enviados = set()
 
@@ -80,7 +80,7 @@ def buscar_campo_texto(dr):
     return None
 
 def abrir_y_verificar_tags_todos(dr):
-    print("⏳ [LITHIUMS1 - HEADLESS] Abriendo y preparando todos los chats en segundo plano...")
+    print("⏳ [PLAY1 - HEADLESS] Abriendo y preparando todos los chats en segundo plano...", flush=True)
     handles = []
     for i, url in enumerate(LINKS):
         if i == 0:
@@ -148,7 +148,7 @@ def run():
         
         proximo_disparo_por_tag = {i: 0.0 for i in range(num_tags)}
         
-        print(f"\n🚀 [LITHIUMS1 ACTIONS] INICIANDO RACHAS INTELIGENTES ({num_tags} chats activos)...")
+        print(f"\n🚀 [PLAY1 ACTIONS] INICIANDO RACHAS INTELIGENTES ({num_tags} chats activos)...", flush=True)
         
         while total_disparos_global < MAX_DISPAROS_CICLO:
             ahora = time.time()
@@ -164,24 +164,24 @@ def run():
                     if disparar_con_protocolo_seguro(dr, handles[idx], idx, msg):
                         total_disparos_global += 1
                         disparo_realizado_en_iteracion = True
-                        print(f"    ⚡ [LITHIUMS1] Chat #{idx+1} enviado | Total ciclo: {total_disparos_global}/{MAX_DISPAROS_CICLO}")
+                        print(f"    ⚡ [PLAY1] Chat #{idx+1} enviado | Total ciclo: {total_disparos_global}/{MAX_DISPAROS_CICLO}", flush=True)
                         
                         proximo_disparo_por_tag[idx] = time.time() + 5.0
             
             if not disparo_realizado_en_iteracion:
                 time.sleep(0.1)
         
-        print(f"\n🎯 [LITHIUMS1] META DE {MAX_DISPAROS_CICLO} ALCANZADA.")
+        print(f"\n🎯 [PLAY1] META DE {MAX_DISPAROS_CICLO} ALCANZADA.", flush=True)
         
     except Exception as e:
-        print(f"⚠️ [LITHIUMS1] Error en ejecución: {e}")
+        print(f"⚠️ [PLAY1] Error en ejecución: {e}", flush=True)
     finally:
         try: dr.quit()
         except: pass
         limpiar_especifico(pid)
         historial_enviados.clear()
         gc.collect()
-        print("🔄 [LITHIUMS1] Ciclo finalizado correctamente en GitHub Actions.\n")
+        print("🔄 [PLAY1] Ciclo finalizado correctamente en GitHub Actions.\n", flush=True)
 
 if __name__ == "__main__": 
     run()
