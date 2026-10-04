@@ -12,7 +12,7 @@ LINKS = [
     "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P10308585Pp8yydl8f61yltw7qpxy&balance=0&currency=USD&userid=10241632&isMobile=false",
     "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P14593533Pj3tiqie8ortlp4aoduq&balance=0&currency=USD&userid=14545706&isMobile=false",
     "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P285372Pbj1t6cc5stb55nhx8j6vd&balance=0&currency=USD&userid=133314&isMobile=false",
-    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9020893Pricjyeas8apawve9zdgg&balance=0&currency=USD&userid=8943871&isMobile=false
+    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9020893Pricjyeas8apawve9zdgg&balance=0&currency=USD&userid=8943871&isMobile=false"
 ]
 
 PLANTILLA_BASE = "Quieres Ganar Mas de 2 mil en 45 minutoｓ Escribeme al Whatsapp⚡ ✅𝐎𝟗𝟔𝟖𝟖𝟑𝟐𝟑𝟎𝟎✅⚓𝚃𝙴L𝙴𝙶𝚁AM😚✅𝙰𝚅𝙸𝙰𝚃𝙾𝚁𝙿𝙺𝙰✅Sin 𝙿agos adelantadoss⚓⚡⛳⛺➕➗VAR_3"
