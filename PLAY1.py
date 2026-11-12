@@ -1,4 +1,8 @@
-import time, os, json, psutil, gc
+import time
+import os
+import json
+import psutil
+import gc
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
@@ -10,16 +14,17 @@ from webdriver_manager.firefox import GeckoDriverManager
 # CONFIGURACIÓN DE ARCHIVOS Y REGLAS DE TIEMPO
 # =========================================================================
 ESTADO_FILE = "estado_ecuabet.json"
-MAX_DISPAROS_CICLO = 1200  # <--- Límite ajustado a 1200 disparos por ciclo
+MAX_DISPAROS_CICLO = 1200  # Cada 1200 disparos limpia CPU/RAM y reinicia navegador
 COOLDOWN_POR_TAG = 5.0
 
 # =========================================================================
-# CONFIGURACIÓN DE ENLACES / TOKENS
+# CONFIGURACIÓN DE ENLACES / TOKENS (TAC1 y TAC2)
 # =========================================================================
 LINKS = [
-    # Chat / Tag 1
-    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9598545P99mrw5j96ultpseez623&balance=0&currency=USD&userid=9526601&isMobile=false",
-    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P4724879Pafkl7fdk385zeq5ie4gh&balance=0&currency=USD&userid=4658141&isMobile=false"
+    # TAC1
+    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9598545P99mrw5j96ultpseez623&balance=0¤cy=USD&userid=9526601&isMobile=false",
+    # TAC2
+    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P4724879Pafkl7fdk385zeq5ie4gh&balance=0¤cy=USD&userid=4658141&isMobile=false"
 ]
 
 LINKS = [link for link in LINKS if link and not link.startswith("AQUI_TU_")]
@@ -70,9 +75,6 @@ BLOQUE_1_TEXTOS = [
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😝",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😀",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😚",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😛",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😊",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😗",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😛",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😊",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😗",
@@ -154,9 +156,6 @@ BLOQUE_1_TEXTOS = [
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😃",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😘",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😝",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😃",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😘",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😝",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😀",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😚",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😛",
@@ -207,55 +206,125 @@ BLOQUE_2_TEXTOS = [
     for emoji in EMOJIS_BLOQUE_2
 ]
 
-TOTAL_TEXTOS_B1 = len(BLOQUE_1_TEXTOS)
-TOTAL_TEXTOS_B2 = len(BLOQUE_2_TEXTOS)
+# Eliminar cualquier duplicado accidental manteniendo el orden exacto
+BLOQUE_1_TEXTOS = list(dict.fromkeys(BLOQUE_1_TEXTOS))
+BLOQUE_2_TEXTOS = list(dict.fromkeys(BLOQUE_2_TEXTOS))
 
 # =========================================================================
-# GESTIÓN DE ESTADO PERSISTENTE DUAL EN DISCO
+# GESTIÓN DE ESTADO PERSISTENTE INDEPENDIENTE POR TAC (TAC1, TAC2, etc.)
 # =========================================================================
-def cargar_estado():
+def inicializar_estado_tacs(num_tacs):
+    estado = {
+        "disparo_ciclo": 0,
+        "total_acumulado": 0,
+        "tacs": {}
+    }
+    for i in range(num_tacs):
+        tac_id = f"TAC{i+1}"
+        estado["tacs"][tac_id] = {
+            "usados_b1": [],
+            "usados_b2": [],
+            "turno_bloque": 1  # Alterna 1 -> 2 -> 1 en cada TAC
+        }
+    return estado
+
+def cargar_estado(num_tacs):
+    estado_base = inicializar_estado_tacs(num_tacs)
     if os.path.exists(ESTADO_FILE):
         try:
             with open(ESTADO_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                return (
-                    data.get("indice_b1", 0), 
-                    data.get("indice_b2", 0), 
-                    data.get("disparo_global", 0)
-                )
+                estado_base["disparo_ciclo"] = data.get("disparo_ciclo", 0)
+                estado_base["total_acumulado"] = data.get("total_acumulado", 0)
+                tacs_guardados = data.get("tacs", {})
+                for tac_id in estado_base["tacs"]:
+                    if tac_id in tacs_guardados:
+                        estado_base["tacs"][tac_id]["usados_b1"] = tacs_guardados[tac_id].get("usados_b1", [])
+                        estado_base["tacs"][tac_id]["usados_b2"] = tacs_guardados[tac_id].get("usados_b2", [])
+                        estado_base["tacs"][tac_id]["turno_bloque"] = tacs_guardados[tac_id].get("turno_bloque", 1)
         except:
             pass
-    return 0, 0, 0
+    return estado_base
 
-def guardar_estado(indice_b1, indice_b2, disparo_global):
+def guardar_estado(estado):
     try:
         with open(ESTADO_FILE, "w", encoding="utf-8") as f:
-            json.dump({
-                "indice_b1": indice_b1, 
-                "indice_b2": indice_b2, 
-                "disparo_global": disparo_global
-            }, f, ensure_ascii=False)
+            json.dump(estado, f, ensure_ascii=False, indent=2)
     except:
         pass
 
+def obtener_siguiente_mensaje_tac(estado, tac_id):
+    """
+    Obtiene el siguiente mensaje disponible para este TAC sin repetir
+    ninguno ya enviado en este mismo TAC hasta agotar el bloque completo.
+    """
+    info_tac = estado["tacs"][tac_id]
+    bloque_num = info_tac["turno_bloque"]
+
+    if bloque_num == 1:
+        lista_completa = BLOQUE_1_TEXTOS
+        clave_usados = "usados_b1"
+        nombre_bloque = "Bloque 1"
+    else:
+        lista_completa = BLOQUE_2_TEXTOS
+        clave_usados = "usados_b2"
+        nombre_bloque = "Bloque 2"
+
+    usados = info_tac[clave_usados]
+    disponibles = [txt for txt in lista_completa if txt not in usados]
+
+    # Si ya se enviaron todos los textos del bloque en este TAC, reiniciar ciclo del bloque
+    if not disponibles:
+        print(f"    🔄 [{tac_id} - {nombre_bloque}] Todos los textos usados. Reiniciando lista del bloque...")
+        info_tac[clave_usados] = []
+        disponibles = list(lista_completa)
+
+    mensaje_elegido = disponibles[0]
+    return mensaje_elegido, bloque_num, nombre_bloque
+
+def registrar_disparo_tac(estado, tac_id, bloque_num, mensaje_enviado):
+    """Registra el mensaje en el historial del TAC y alterna el bloque para su próximo turno."""
+    info_tac = estado["tacs"][tac_id]
+    if bloque_num == 1:
+        info_tac["usados_b1"].append(mensaje_enviado)
+        info_tac["turno_bloque"] = 2
+    else:
+        info_tac["usados_b2"].append(mensaje_enviado)
+        info_tac["turno_bloque"] = 1
+
 # =========================================================================
-# LIMPIEZA DE PROCESOS Y NAVEGADOR
+# LIMPIEZA PROFUNDA DE PROCESOS, CPU Y RAM
 # =========================================================================
-def limpiar_procesos_navegador(pid):
-    try:
-        p = psutil.Process(pid)
-        for hijo in p.children(recursive=True):
-            hijo.kill()
-        p.kill()
-    except:
-        pass
+def limpiar_procesos_y_memoria(pid=None):
+    print("🧹 [LIMPIEZA SISTEMA] Liberando CPU, procesos huérfanos de Firefox/GeckoDriver y memoria RAM...")
+    if pid:
+        try:
+            p = psutil.Process(pid)
+            for hijo in p.children(recursive=True):
+                hijo.kill()
+            p.kill()
+        except:
+            pass
+
+    # Barrido adicional de cualquier proceso zombie de firefox o geckodriver en memoria
+    for proc in psutil.process_iter(['pid', 'name']):
+        try:
+            nombre = (proc.info['name'] or '').lower()
+            if 'firefox' in nombre or 'geckodriver' in nombre:
+                proc.kill()
+        except:
+            pass
+
     gc.collect()
+    time.sleep(2)
+    print("✅ [LIMPIEZA SISTEMA] CPU y RAM liberadas correctamente.")
 
 def iniciar():
     opt = Options()
     opt.add_argument("--headless")
     opt.set_preference("browser.cache.disk.enable", False)
     opt.set_preference("browser.cache.memory.enable", False)
+    opt.set_preference("browser.sessionhistory.max_entries", 2)
     driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opt)
     try:
         driver.set_window_size(1366, 768)
@@ -324,7 +393,7 @@ def verificar_chat_listo_y_estable(dr, handle):
     return False, None
 
 def abrir_y_verificar_tags_todos(dr):
-    print(f"⏳ [ECUABET] Abriendo y preparando {len(LINKS)} pestañas en modo Headless...")
+    print(f"⏳ [ECUABET] Abriendo y preparando {len(LINKS)} pestañas (TAC1..TAC{len(LINKS)}) en modo Headless...")
     handles = []
     for i, url in enumerate(LINKS):
         if i == 0:
@@ -351,7 +420,7 @@ def abrir_y_verificar_tags_todos(dr):
     dr.switch_to.default_content()
     return handles
 
-def disparar_con_protocolo_seguro(dr, handle, msg):
+def disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
     try:
         estable, target = verificar_chat_listo_y_estable(dr, handle)
         if not estable or target is None:
@@ -360,12 +429,12 @@ def disparar_con_protocolo_seguro(dr, handle, msg):
                 dr.switch_to.default_content()
                 restriccion = dr.find_elements(By.CSS_SELECTOR, "app-chat-message-restriction")
                 if restriccion:
-                    print("    🛡️ [ANTI-RESTRICCIÓN] Saldo inferior a 5 USD detectado. Bot en modo espera (ignorando turno hasta que recargues)...")
+                    print(f"    🛡️ [{tac_id} - ANTI-RESTRICCIÓN] Saldo inferior a 5 USD detectado. Saltando turno...")
                 else:
                     btn_chat = dr.find_element(By.CSS_SELECTOR, "button.btn.btn-circl.header__btn-chat")
                     if btn_chat.is_displayed():
                         btn_chat.click()
-                        print("    🛡️ [ANTI-CAÍDAS] Red inestable detectada: Chat cerrado temporalmente.")
+                        print(f"    🛡️ [{tac_id} - ANTI-CAÍDAS] Red inestable detectada: Chat cerrado temporalmente.")
             except:
                 pass
             return False
@@ -399,46 +468,50 @@ def disparar_con_protocolo_seguro(dr, handle, msg):
     return False
 
 # =========================================================================
-# CICLO PRINCIPAL DE EJECUCIÓN
+# CICLO PRINCIPAL CONTINUO CON REINICIO Y LIMPIEZA CADA 1200 DISPAROS
 # =========================================================================
-def run():
-    indice_b1, indice_b2, disparo_global = cargar_estado()
+def ejecutar_ciclo_1200(estado):
     dr = iniciar()
     pid = dr.service.process.pid
 
     try:
         handles = abrir_y_verificar_tags_todos(dr)
         if not handles:
-            print("⚠️ [ERROR] No se pudo abrir ningún enlace.")
+            print("⚠️ [ERROR] No se pudo abrir ningún enlace. Reintentando tras limpieza...")
             return
 
-        print(f"\n🚀 [ECUABET ACTIONS] INICIANDO SECUENCIA DUAL (Disparos previos registrados: {disparo_global})...")
+        print(f"\n🚀 [ECUABET ACTIONS] INICIANDO BLOQUE DE {MAX_DISPAROS_CICLO} DISPAROS (Ciclo actual: {estado['disparo_ciclo']}/{MAX_DISPAROS_CICLO} | Acumulado histórico: {estado['total_acumulado']})...")
 
-        while disparo_global < MAX_DISPAROS_CICLO:
-            if disparo_global % 2 == 0:
-                msg = BLOQUE_1_TEXTOS[indice_b1]
-                bloque_activo = "Bloque 1"
-                indice_b1 = (indice_b1 + 1) % TOTAL_TEXTOS_B1
-            else:
-                msg = BLOQUE_2_TEXTOS[indice_b2]
-                bloque_activo = "Bloque 2"
-                indice_b2 = (indice_b2 + 1) % TOTAL_TEXTOS_B2
+        while estado["disparo_ciclo"] < MAX_DISPAROS_CICLO:
+            alguno_enviado = False
 
-            enviado = False
             for idx, handle in enumerate(handles):
-                if disparar_con_protocolo_seguro(dr, handle, msg):
-                    disparo_global += 1
-                    enviado = True
-                    print(f"    ⚡ [{bloque_activo}] Chat #{idx+1} enviado | Total global: {disparo_global}/{MAX_DISPAROS_CICLO}")
-                    guardar_estado(indice_b1, indice_b2, disparo_global)
+                if estado["disparo_ciclo"] >= MAX_DISPAROS_CICLO:
                     break
-            
-            if enviado:
-                time.sleep(COOLDOWN_POR_TAG)
-            else:
+
+                tac_id = f"TAC{idx+1}"
+                msg, bloque_num, nombre_bloque = obtener_siguiente_mensaje_tac(estado, tac_id)
+
+                if disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
+                    registrar_disparo_tac(estado, tac_id, bloque_num, msg)
+                    estado["disparo_ciclo"] += 1
+                    estado["total_acumulado"] += 1
+                    alguno_enviado = True
+
+                    usados_count = len(estado["tacs"][tac_id][f"usados_b{bloque_num}"])
+                    total_bloque = len(BLOQUE_1_TEXTOS) if bloque_num == 1 else len(BLOQUE_2_TEXTOS)
+
+                    print(f"    ⚡ [{tac_id} | {nombre_bloque}] ({usados_count}/{total_bloque}) | Ciclo: {estado['disparo_ciclo']}/{MAX_DISPAROS_CICLO} | Total: {estado['total_acumulado']}")
+                    guardar_estado(estado)
+                    time.sleep(COOLDOWN_POR_TAG)
+
+            if not alguno_enviado:
                 time.sleep(2.0)
 
-        print(f"\n🎯 [ECUABET] META DE {MAX_DISPAROS_CICLO} DISPAROS ALCANZADA.")
+        print(f"\n🎯 [ECUABET] META DE {MAX_DISPAROS_CICLO} DISPAROS DEL CICLO ALCANZADA. PREPARANDO LIMPIEZA Y REINICIO...")
+        # Reinicia el contador del ciclo para la siguiente vuelta manteniendo intactos los historiales usados_b1 y usados_b2
+        estado["disparo_ciclo"] = 0
+        guardar_estado(estado)
 
     except Exception as e:
         print(f"⚠️ [ECUABET] Error en ejecución: {e}")
@@ -447,9 +520,19 @@ def run():
             dr.quit()
         except:
             pass
-        limpiar_procesos_navegador(pid)
-        gc.collect()
-        print("🔄 [ECUABET] Ciclo finalizado correctamente en GitHub Actions.\n")
+        limpiar_procesos_y_memoria(pid)
+
+def run():
+    if not LINKS:
+        print("⚠️ [ERROR] No hay enlaces configurados en LINKS.")
+        return
+
+    # Bucle infinito controlado: corre 1200 -> limpia CPU/RAM -> vuelve a correr
+    while True:
+        estado = cargar_estado(len(LINKS))
+        ejecutar_ciclo_1200(estado)
+        print("🔄 [ECUABET] Reiniciando nueva sesión limpia en 3 segundos...\n")
+        time.sleep(3)
 
 if __name__ == "__main__":
     run()
