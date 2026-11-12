@@ -18,7 +18,8 @@ COOLDOWN_POR_TAG = 5.0
 # =========================================================================
 LINKS = [
     # Chat / Tag 1
-    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9598545P99mrw5j96ultpseez623&balance=0&currency=USD&userid=9526601&isMobile=false"
+    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9598545P99mrw5j96ultpseez623&balance=0&currency=USD&userid=9526601&isMobile=false",
+    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P4724879Pafkl7fdk385zeq5ie4gh&balance=0&currency=USD&userid=4658141&isMobile=false"
 ]
 
 LINKS = [link for link in LINKS if link and not link.startswith("AQUI_TU_")]
