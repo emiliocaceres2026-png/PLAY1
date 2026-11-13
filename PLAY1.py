@@ -1,8 +1,4 @@
-import time
-import os
-import json
-import psutil
-import gc
+import time, os, json, psutil, gc
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
@@ -14,27 +10,25 @@ from webdriver_manager.firefox import GeckoDriverManager
 # CONFIGURACIÓN DE ARCHIVOS Y REGLAS DE TIEMPO
 # =========================================================================
 ESTADO_FILE = "estado_ecuabet.json"
-MAX_DISPAROS_CICLO = 1200  # Cada 1200 disparos limpia CPU/RAM y reinicia navegador
+MAX_DISPAROS_CICLO = 1200  # Purga optimizada cada 1200 disparos
 COOLDOWN_POR_TAG = 5.0
 
 # =========================================================================
-# CONFIGURACIÓN DE ENLACES / TOKENS (TAC1 y TAC2)
+# CONFIGURACIÓN DE ENLACES / TOKENS
 # =========================================================================
 LINKS = [
-    # TAC1
-    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P9598545P99mrw5j96ultpseez623&balance=0¤cy=USD&userid=9526601&isMobile=false",
-    # TAC2
-    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P4724879Pafkl7fdk385zeq5ie4gh&balance=0¤cy=USD&userid=4658141&isMobile=false"
+    # Chat / Tag 1
+    "https://casino.virtualsoft.tech/game/play/?gameid=203831&mode=real&provider=undefined&lan=es&partnerid=8&token=0P3501298Pekhpe0ithgteoe3q2nz8&balance=0&currency=USD&userid=3406564&isMobile=false"
 ]
 
 LINKS = [link for link in LINKS if link and not link.startswith("AQUI_TU_")]
 
 # =========================================================================
-# BLOQUE 1 - SECUENCIA EXACTA
+# BLOQUE 1 - SECUENCIA EXACTA (128 TEXTOS DE TELEGRAM)
 # =========================================================================
 BLOQUE_1_TEXTOS = [
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎😄😍😜",
-    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎😍😄😜",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎😄😍😄",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎😜😄😍",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎😄😍😙",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎😙😜😍",
@@ -75,6 +69,9 @@ BLOQUE_1_TEXTOS = [
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😝",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😀",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😚",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😛",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😊",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😗",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😛",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😊",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💜😎😗",
@@ -156,6 +153,9 @@ BLOQUE_1_TEXTOS = [
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😃",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😘",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😝",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😃",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😘",
+    "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😝",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😀",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😚",
     "Quieres ganar mas de 19OO in 45 minuts sin tener perdidas scribeme seguro abajo les dejo tlg ⚓AVIATORPKA⚓ estamos Disponibles🔥ven te esperamos💎💵😎😛",
@@ -206,125 +206,57 @@ BLOQUE_2_TEXTOS = [
     for emoji in EMOJIS_BLOQUE_2
 ]
 
-# Eliminar cualquier duplicado accidental manteniendo el orden exacto
-BLOQUE_1_TEXTOS = list(dict.fromkeys(BLOQUE_1_TEXTOS))
-BLOQUE_2_TEXTOS = list(dict.fromkeys(BLOQUE_2_TEXTOS))
+TOTAL_TEXTOS_B1 = len(BLOQUE_1_TEXTOS)
+TOTAL_TEXTOS_B2 = len(BLOQUE_2_TEXTOS)
 
 # =========================================================================
-# GESTIÓN DE ESTADO PERSISTENTE INDEPENDIENTE POR TAC (TAC1, TAC2, etc.)
+# GESTIÓN DE ESTADO PERSISTENTE DUAL EN DISCO
 # =========================================================================
-def inicializar_estado_tacs(num_tacs):
-    estado = {
-        "disparo_ciclo": 0,
-        "total_acumulado": 0,
-        "tacs": {}
-    }
-    for i in range(num_tacs):
-        tac_id = f"TAC{i+1}"
-        estado["tacs"][tac_id] = {
-            "usados_b1": [],
-            "usados_b2": [],
-            "turno_bloque": 1  # Alterna 1 -> 2 -> 1 en cada TAC
-        }
-    return estado
-
-def cargar_estado(num_tacs):
-    estado_base = inicializar_estado_tacs(num_tacs)
+def cargar_estado():
     if os.path.exists(ESTADO_FILE):
         try:
             with open(ESTADO_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                estado_base["disparo_ciclo"] = data.get("disparo_ciclo", 0)
-                estado_base["total_acumulado"] = data.get("total_acumulado", 0)
-                tacs_guardados = data.get("tacs", {})
-                for tac_id in estado_base["tacs"]:
-                    if tac_id in tacs_guardados:
-                        estado_base["tacs"][tac_id]["usados_b1"] = tacs_guardados[tac_id].get("usados_b1", [])
-                        estado_base["tacs"][tac_id]["usados_b2"] = tacs_guardados[tac_id].get("usados_b2", [])
-                        estado_base["tacs"][tac_id]["turno_bloque"] = tacs_guardados[tac_id].get("turno_bloque", 1)
+                return (
+                    data.get("indice_b1", 0), 
+                    data.get("indice_b2", 0), 
+                    data.get("disparo_global", 0)
+                )
         except:
             pass
-    return estado_base
+    return 0, 0, 0
 
-def guardar_estado(estado):
+def guardar_estado(indice_b1, indice_b2, disparo_global):
     try:
         with open(ESTADO_FILE, "w", encoding="utf-8") as f:
-            json.dump(estado, f, ensure_ascii=False, indent=2)
+            json.dump({
+                "indice_b1": indice_b1, 
+                "indice_b2": indice_b2, 
+                "disparo_global": disparo_global
+            }, f, ensure_ascii=False)
     except:
         pass
 
-def obtener_siguiente_mensaje_tac(estado, tac_id):
-    """
-    Obtiene el siguiente mensaje disponible para este TAC sin repetir
-    ninguno ya enviado en este mismo TAC hasta agotar el bloque completo.
-    """
-    info_tac = estado["tacs"][tac_id]
-    bloque_num = info_tac["turno_bloque"]
-
-    if bloque_num == 1:
-        lista_completa = BLOQUE_1_TEXTOS
-        clave_usados = "usados_b1"
-        nombre_bloque = "Bloque 1"
-    else:
-        lista_completa = BLOQUE_2_TEXTOS
-        clave_usados = "usados_b2"
-        nombre_bloque = "Bloque 2"
-
-    usados = info_tac[clave_usados]
-    disponibles = [txt for txt in lista_completa if txt not in usados]
-
-    # Si ya se enviaron todos los textos del bloque en este TAC, reiniciar ciclo del bloque
-    if not disponibles:
-        print(f"    🔄 [{tac_id} - {nombre_bloque}] Todos los textos usados. Reiniciando lista del bloque...")
-        info_tac[clave_usados] = []
-        disponibles = list(lista_completa)
-
-    mensaje_elegido = disponibles[0]
-    return mensaje_elegido, bloque_num, nombre_bloque
-
-def registrar_disparo_tac(estado, tac_id, bloque_num, mensaje_enviado):
-    """Registra el mensaje en el historial del TAC y alterna el bloque para su próximo turno."""
-    info_tac = estado["tacs"][tac_id]
-    if bloque_num == 1:
-        info_tac["usados_b1"].append(mensaje_enviado)
-        info_tac["turno_bloque"] = 2
-    else:
-        info_tac["usados_b2"].append(mensaje_enviado)
-        info_tac["turno_bloque"] = 1
-
 # =========================================================================
-# LIMPIEZA PROFUNDA DE PROCESOS, CPU Y RAM
+# LIMPIEZA DE PROCESOS Y NAVEGADOR
 # =========================================================================
-def limpiar_procesos_y_memoria(pid=None):
-    print("🧹 [LIMPIEZA SISTEMA] Liberando CPU, procesos huérfanos de Firefox/GeckoDriver y memoria RAM...")
-    if pid:
-        try:
-            p = psutil.Process(pid)
-            for hijo in p.children(recursive=True):
-                hijo.kill()
-            p.kill()
-        except:
-            pass
-
-    # Barrido adicional de cualquier proceso zombie de firefox o geckodriver en memoria
-    for proc in psutil.process_iter(['pid', 'name']):
-        try:
-            nombre = (proc.info['name'] or '').lower()
-            if 'firefox' in nombre or 'geckodriver' in nombre:
-                proc.kill()
-        except:
-            pass
-
+def limpiar_procesos_navegador(pid):
+    try:
+        p = psutil.Process(pid)
+        for hijo in p.children(recursive=True):
+            hijo.kill()
+        p.kill()
+    except:
+        pass
     gc.collect()
-    time.sleep(2)
-    print("✅ [LIMPIEZA SISTEMA] CPU y RAM liberadas correctamente.")
 
 def iniciar():
     opt = Options()
+    # MODO HEADLESS ACTIVADO PARA AHORRAR CPU Y RAM
     opt.add_argument("--headless")
+    
     opt.set_preference("browser.cache.disk.enable", False)
     opt.set_preference("browser.cache.memory.enable", False)
-    opt.set_preference("browser.sessionhistory.max_entries", 2)
     driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=opt)
     try:
         driver.set_window_size(1366, 768)
@@ -370,13 +302,15 @@ def verificar_chat_listo_y_estable(dr, handle):
         dr.switch_to.window(handle)
         dr.switch_to.default_content()
 
+        # 1. Verificar si hay restricción de saldo activa en pantalla (<app-chat-message-restriction>)
         try:
             restriccion = dr.find_elements(By.CSS_SELECTOR, "app-chat-message-restriction")
             if restriccion and restriccion[0].is_displayed():
-                return False, None
+                return False, None # Se considera no estable/restringido para evitar disparar
         except:
             pass
 
+        # 2. Palabras clave de bloqueo o desconexión
         textos_bloqueo = ["reconectando", "reconnecting", "connecting...", "sin conexión", "esperando conexión", "error de red"]
         try:
             body_text = dr.find_element(By.TAG_NAME, "body").text.lower()
@@ -393,7 +327,7 @@ def verificar_chat_listo_y_estable(dr, handle):
     return False, None
 
 def abrir_y_verificar_tags_todos(dr):
-    print(f"⏳ [ECUABET] Abriendo y preparando {len(LINKS)} pestañas (TAC1..TAC{len(LINKS)}) en modo Headless...")
+    print(f"⏳ [ECUABET] Abriendo y preparando {len(LINKS)} pestañas en modo Headless...")
     handles = []
     for i, url in enumerate(LINKS):
         if i == 0:
@@ -420,8 +354,9 @@ def abrir_y_verificar_tags_todos(dr):
     dr.switch_to.default_content()
     return handles
 
-def disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
+def disparar_con_protocolo_seguro(dr, handle, msg):
     try:
+        # Verificación previa de estabilidad y restricción de saldo (< 5 USD)
         estable, target = verificar_chat_listo_y_estable(dr, handle)
         if not estable or target is None:
             try:
@@ -429,12 +364,13 @@ def disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
                 dr.switch_to.default_content()
                 restriccion = dr.find_elements(By.CSS_SELECTOR, "app-chat-message-restriction")
                 if restriccion:
-                    print(f"    🛡️ [{tac_id} - ANTI-RESTRICCIÓN] Saldo inferior a 5 USD detectado. Saltando turno...")
+                    print("    🛡️ [ANTI-RESTRICCIÓN] Saldo inferior a 5 USD detectado. Bot en modo espera (ignorando turno hasta que recargues)...")
                 else:
+                    # Si la red falló, intentamos cerrar el chat con el botón para proteger
                     btn_chat = dr.find_element(By.CSS_SELECTOR, "button.btn.btn-circl.header__btn-chat")
                     if btn_chat.is_displayed():
                         btn_chat.click()
-                        print(f"    🛡️ [{tac_id} - ANTI-CAÍDAS] Red inestable detectada: Chat cerrado temporalmente.")
+                        print("    🛡️ [ANTI-CAÍDAS] Red inestable detectada: Chat cerrado temporalmente.")
             except:
                 pass
             return False
@@ -453,10 +389,18 @@ def disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
         target.send_keys(msg)
         
         val_actual = target.get_attribute("value") or target.text
-        if not val_actual or len(val_actual) < 5:
+        if not val_actual or len(val_actual) < 10:
             dr.execute_script("arguments[0].value = arguments[1];", target, msg)
         
         target.send_keys(Keys.ENTER)
+        
+        # Verificación posterior instantánea: ¿Apareció la restricción justo al enviar?
+        time.sleep(0.5)
+        restriccion_post = dr.find_elements(By.CSS_SELECTOR, "app-chat-message-restriction")
+        if restriccion_post and restriccion_post[0].is_displayed():
+            print("    ⚠️ [ALERTA] Restricción de saldo activada tras el envío. Pausando disparos.")
+            return False
+
         return True
     except:
         pass
@@ -468,71 +412,91 @@ def disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
     return False
 
 # =========================================================================
-# CICLO PRINCIPAL CONTINUO CON REINICIO Y LIMPIEZA CADA 1200 DISPAROS
+# CICLO PRINCIPAL CON PURGA CADA 1200 DISPAROS Y CERO REPETICIONES
 # =========================================================================
-def ejecutar_ciclo_1200(estado):
-    dr = iniciar()
-    pid = dr.service.process.pid
-
-    try:
-        handles = abrir_y_verificar_tags_todos(dr)
-        if not handles:
-            print("⚠️ [ERROR] No se pudo abrir ningún enlace. Reintentando tras limpieza...")
-            return
-
-        print(f"\n🚀 [ECUABET ACTIONS] INICIANDO BLOQUE DE {MAX_DISPAROS_CICLO} DISPAROS (Ciclo actual: {estado['disparo_ciclo']}/{MAX_DISPAROS_CICLO} | Acumulado histórico: {estado['total_acumulado']})...")
-
-        while estado["disparo_ciclo"] < MAX_DISPAROS_CICLO:
-            alguno_enviado = False
-
-            for idx, handle in enumerate(handles):
-                if estado["disparo_ciclo"] >= MAX_DISPAROS_CICLO:
-                    break
-
-                tac_id = f"TAC{idx+1}"
-                msg, bloque_num, nombre_bloque = obtener_siguiente_mensaje_tac(estado, tac_id)
-
-                if disparar_con_protocolo_seguro(dr, handle, tac_id, msg):
-                    registrar_disparo_tac(estado, tac_id, bloque_num, msg)
-                    estado["disparo_ciclo"] += 1
-                    estado["total_acumulado"] += 1
-                    alguno_enviado = True
-
-                    usados_count = len(estado["tacs"][tac_id][f"usados_b{bloque_num}"])
-                    total_bloque = len(BLOQUE_1_TEXTOS) if bloque_num == 1 else len(BLOQUE_2_TEXTOS)
-
-                    print(f"    ⚡ [{tac_id} | {nombre_bloque}] ({usados_count}/{total_bloque}) | Ciclo: {estado['disparo_ciclo']}/{MAX_DISPAROS_CICLO} | Total: {estado['total_acumulado']}")
-                    guardar_estado(estado)
-                    time.sleep(COOLDOWN_POR_TAG)
-
-            if not alguno_enviado:
-                time.sleep(2.0)
-
-        print(f"\n🎯 [ECUABET] META DE {MAX_DISPAROS_CICLO} DISPAROS DEL CICLO ALCANZADA. PREPARANDO LIMPIEZA Y REINICIO...")
-        # Reinicia el contador del ciclo para la siguiente vuelta manteniendo intactos los historiales usados_b1 y usados_b2
-        estado["disparo_ciclo"] = 0
-        guardar_estado(estado)
-
-    except Exception as e:
-        print(f"⚠️ [ECUABET] Error en ejecución: {e}")
-    finally:
-        try:
-            dr.quit()
-        except:
-            pass
-        limpiar_procesos_y_memoria(pid)
-
 def run():
     if not LINKS:
-        print("⚠️ [ERROR] No hay enlaces configurados en LINKS.")
+        print("❌ Error: No se configuraron enlaces válidos en la lista LINKS.")
         return
 
-    # Bucle infinito controlado: corre 1200 -> limpia CPU/RAM -> vuelve a correr
+    indice_b1, indice_b2, contador_disparos = cargar_estado()
+    
+    print(f"[SISTEMA] Ecuabet / Virtualsoft Iniciado (Modo Headless 🕶️).")
+    print(f"[SISTEMA] Reanudando Bloque 1 [{indice_b1 + 1}/{TOTAL_TEXTOS_B1}] | Bloque 2 [{indice_b2 + 1}/{TOTAL_TEXTOS_B2}] | Global: {contador_disparos}")
+    print(f"[SISTEMA] Ciclo de purga configurado cada {MAX_DISPAROS_CICLO} disparos (Anti-Restricción de Saldo Activa).\n")
+
     while True:
-        estado = cargar_estado(len(LINKS))
-        ejecutar_ciclo_1200(estado)
-        print("🔄 [ECUABET] Reiniciando nueva sesión limpia en 3 segundos...\n")
-        time.sleep(3)
+        dr = iniciar()
+        pid = dr.service.process.pid
+        disparos_en_ciclo = 0
+
+        try:
+            handles = abrir_y_verificar_tags_todos(dr)
+            num_tags = len(handles)
+            proximo_disparo_por_tag = {i: 0.0 for i in range(num_tags)}
+            idx_tag_actual = 0
+            
+            print(f"\n🚀 [ECUABET] CICLO EN CURSO ({num_tags} pestañas activas en segundo plano)...")
+
+            while disparos_en_ciclo < MAX_DISPAROS_CICLO:
+                ahora = time.time()
+                tiempo_espera = proximo_disparo_por_tag[idx_tag_actual] - ahora
+                if tiempo_espera > 0:
+                    time.sleep(tiempo_espera)
+
+                handle = handles[idx_tag_actual]
+
+                # Comprobación de estabilidad y saldo antes de tomar el turno
+                estable, _ = verificar_chat_listo_y_estable(dr, handle)
+                if not estable:
+                    print(f"    ⏸️ Pestaña #{idx_tag_actual + 1} restringida o en reconexión. Esperando habilitación...")
+                    time.sleep(3.0)
+                    continue
+
+                # Selección secuencial y ordenada de bloques sin repetición anticipada
+                if disparos_en_ciclo % 2 == 0:
+                    msg = BLOQUE_1_TEXTOS[indice_b1]
+                    tipo_bloque = f"B1 [{indice_b1 + 1}/{TOTAL_TEXTOS_B1}]"
+                else:
+                    msg = BLOQUE_2_TEXTOS[indice_b2]
+                    tipo_bloque = f"B2 [{indice_b2 + 1}/{TOTAL_TEXTOS_B2}]"
+
+                enviado = disparar_con_protocolo_seguro(dr, handle, msg)
+
+                if enviado:
+                    contador_disparos += 1
+                    disparos_en_ciclo += 1
+                    print(f"    ⚡ Pestaña #{idx_tag_actual + 1} -> Enviado {tipo_bloque} | Ciclo: {disparos_en_ciclo}/{MAX_DISPAROS_CICLO} | Total: {contador_disparos}")
+                    
+                    # Avanzar índices de forma estrictamente ordenada
+                    if disparos_en_ciclo % 2 == 0:
+                        indice_b1 = (indice_b1 + 1) % TOTAL_TEXTOS_B1
+                    else:
+                        indice_b2 = (indice_b2 + 1) % TOTAL_TEXTOS_B2
+
+                    # Guardar progreso al instante en disco para mantener el orden exacto
+                    guardar_estado(indice_b1, indice_b2, contador_disparos)
+
+                    proximo_disparo_por_tag[idx_tag_actual] = time.time() + COOLDOWN_POR_TAG
+                    idx_tag_actual = (idx_tag_actual + 1) % num_tags
+                else:
+                    print(f"    ⚠️ Pausa en Pestaña #{idx_tag_actual + 1} (Saldo < 5 USD o Restricción activa). Manteniendo orden en cola...")
+                    time.sleep(3.0)
+
+            # LLEGADA A LA META DE 1200 DISPAROS (PURGA DE CACHÉ / CPU)
+            print(f"\n🎯 [ECUABET] META DE {MAX_DISPAROS_CICLO} DISPAROS ALCANZADA.")
+            print(f"🧹 Purgando navegador headless y liberando memoria RAM y CPU...")
+
+        except Exception as e:
+            print(f"⚠️ [ECUABET] Excepción en ejecución: {e}. Reiniciando sesión sin perder índice...")
+        finally:
+            try:
+                dr.quit()
+            except:
+                pass
+            limpiar_procesos_navegador(pid)
+            print(f"🔄 Navegador purgado con éxito. Retomando sesión limpia en orden exacto...\n")
+            time.sleep(5.0)
 
 if __name__ == "__main__":
     run()
